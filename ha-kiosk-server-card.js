@@ -1,4 +1,4 @@
-const VERSION = "0.1.1";
+const VERSION = "0.2.0";
 
 class HAKioskServerCard extends HTMLElement {
   constructor() {
@@ -192,7 +192,7 @@ class HAKioskServerCard extends HTMLElement {
     const actions = c.actions || [];
 
     this.shadowRoot.innerHTML = `<style>
-      :host{display:block;--good:var(--dashboard-success, var(--success-color, #54d9aa));--warn:var(--dashboard-warning, var(--warning-color, #ffbd59));--danger:var(--dashboard-danger, var(--error-color, #ff667a));--edge:var(--dashboard-border-neutral, var(--divider-color, rgba(127,145,165,.2)))}
+      :host{display:block;--accent:var(--dashboard-accent, var(--primary-color, #62b5ff));--good:var(--dashboard-success, var(--success-color, #54d9aa));--warn:var(--dashboard-warning, var(--warning-color, #ffbd59));--danger:var(--dashboard-danger, var(--error-color, #ff667a));--edge:var(--dashboard-border-neutral, var(--divider-color, rgba(127,145,165,.2)))}
       *{box-sizing:border-box}
       ha-card{position:relative;overflow:hidden;padding:18px;border-left:4px solid ${healthy ? "var(--good)" : "var(--danger)"};border-radius:20px;background:var(--ha-card-background,var(--card-background-color));color:var(--primary-text-color);box-shadow:var(--ha-card-box-shadow)}
       .head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
@@ -201,7 +201,7 @@ class HAKioskServerCard extends HTMLElement {
       .head strong{flex:1;font-size:16px}
       .head .pill{padding:4px 10px;border-radius:999px;font-size:10px;font-weight:800;background:color-mix(in srgb,${healthy ? "var(--good)" : "var(--danger)"} 16%,transparent);color:${healthy ? "var(--good)" : "var(--danger)"}}
       .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
-      .stat-tile{display:flex;align-items:center;gap:8px;padding:10px;border:1px solid var(--edge);border-radius:13px}
+      .stat-tile{display:flex;align-items:center;gap:8px;padding:10px;border:1px solid color-mix(in srgb,var(--accent) 16%,transparent);border-left:3px solid var(--accent);border-radius:13px;background:linear-gradient(145deg,color-mix(in srgb,var(--accent) 6%,transparent),transparent 55%);box-shadow:0 4px 12px rgba(0,0,0,.08)}
       .stat-tile ha-icon{--mdc-icon-size:18px;color:var(--secondary-text-color);flex:0 0 auto}
       .stat-text{display:flex;flex-direction:column;min-width:0}
       .stat-text b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -219,7 +219,7 @@ class HAKioskServerCard extends HTMLElement {
       .info-chip span{color:var(--secondary-text-color)}
       .info-chip b{font-weight:700}
       .actions{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-      .action-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px;border:1px solid var(--edge);border-radius:14px;background:transparent;color:var(--primary-text-color);cursor:pointer}
+      .action-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px;border:1px solid color-mix(in srgb,var(--accent) 16%,var(--edge));border-radius:14px;background:transparent;color:var(--primary-text-color);cursor:pointer}
       .action-btn:hover{border-color:var(--good);color:var(--good)}
       .action-btn ha-icon{--mdc-icon-size:19px}
       .action-btn span{font-size:9px;font-weight:700;text-align:center}
@@ -237,18 +237,18 @@ class HAKioskServerCard extends HTMLElement {
       .stepper-row ha-icon{--mdc-icon-size:17px;color:var(--secondary-text-color)}
       .stepper-row .lbl{flex:1;font-size:12px;font-weight:650}
       .stepper{display:flex;align-items:center;gap:6px}
-      .step-btn{width:24px;height:24px;border-radius:999px;border:1px solid var(--edge);background:transparent;color:var(--primary-text-color);display:grid;place-items:center;cursor:pointer}
+      .step-btn{width:24px;height:24px;border-radius:999px;border:1px solid color-mix(in srgb,var(--accent) 16%,var(--edge));background:transparent;color:var(--primary-text-color);display:grid;place-items:center;cursor:pointer}
       .step-btn:hover{border-color:var(--good);color:var(--good)}
       .step-btn ha-icon{--mdc-icon-size:14px}
       .step-value{font-size:12px;font-weight:800;min-width:32px;text-align:center}
       .select-row{display:flex;align-items:center;gap:8px;padding:8px 2px}
       .select-row ha-icon{--mdc-icon-size:17px;color:var(--secondary-text-color)}
       .select-label{flex:1;font-size:12px;font-weight:650}
-      .select-row select{background:transparent;color:var(--primary-text-color);border:1px solid var(--edge);border-radius:10px;padding:5px 8px;font-size:11px;font-family:inherit}
+      .select-row select{background:transparent;color:var(--primary-text-color);border:1px solid color-mix(in srgb,var(--accent) 16%,var(--edge));border-radius:10px;padding:5px 8px;font-size:11px;font-family:inherit}
       .url-row{display:flex;align-items:center;gap:8px;padding:8px 2px;cursor:pointer}
       .url-row ha-icon{--mdc-icon-size:17px;color:var(--secondary-text-color)}
       .url-row span{font-size:11px;color:var(--secondary-text-color);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-      .screenshot{margin-top:8px;border-radius:14px;overflow:hidden;border:1px solid var(--edge)}
+      .screenshot{margin-top:8px;border-radius:14px;overflow:hidden;border:1px solid color-mix(in srgb,var(--accent) 16%,var(--edge))}
       .screenshot img{display:block;width:100%}
       @media(max-width:520px){.stat-grid{grid-template-columns:repeat(2,1fr)}.gauges{grid-template-columns:1fr}.info-row{grid-template-columns:1fr}.actions{grid-template-columns:repeat(3,1fr)}}
     </style>
